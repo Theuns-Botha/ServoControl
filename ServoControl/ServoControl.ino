@@ -157,21 +157,6 @@ void servoDirectionTest(){
  }
 
 
-/*
-  Firstbot PID code:  Implements a PID controller using
-  analog inputs for actual and desired positions.
-
- The circuit: 
- * RX is digital pin 2 (connect to TX of other device)
- * TX is digital pin 3 (connect to RX of other device)
-
- */
-#include <SoftwareSerial.h>
-
-// define some constants
-//int ActPos = A0;    // select the input pin for feedback signal
-//int DesPos = A1;    // select the input pin for control signal
-
 byte PWMOutput;
 long Error[10];
 long Accumulator;
@@ -181,22 +166,7 @@ int ITerm;
 int DTerm;
 byte Divider;
 
-/* 
-The FIRSTBOT has a PIC16F1829 controller that controls the 
-two MC33926 H-bridges on the board.  A oftware serial interface
-is used to control that part.
-*/
-//SoftwareSerial mySerial(2, 3); // Receive data on 2, send data on 3
-//byte SerialTXBuffer[5];
-//byte SerialRXBuffer[5];
 
-//void setup()  
-//{
-
- // Open serial communications and wait for port to open:
-//  Serial.begin(9600);
-//  mySerial.begin(9600);
-//}
 
 /* GetError():
 Read the analog values, shift the Error array down 
@@ -264,47 +234,5 @@ void CalculatePID(void)
 //  Serial.print("PWMOutput= ");
 //  Serial.println(PWMOutput,DEC);
 
-}
-
-/* WriteRegister():
-Writes a single byte to the PIC16F1829, 
-"Value" to the register pointed at by "Index".  
-Returns the response 
-*/
-byte WriteRegister(byte Index, byte Value)
-{
-byte i = 0;
-byte checksum = 0;
-byte ack = 0;
-
-SerialTXBuffer[0] = 210;
-SerialTXBuffer[1] = 1;
-SerialTXBuffer[2] = 3;
-SerialTXBuffer[3] = Index;
-SerialTXBuffer[4] = Value;
-
-for (i=0;i<6;i++)
-  {
-  if (i!=5)
-    {
-    mySerial.write(SerialTXBuffer[i]);
-    checksum += SerialTXBuffer[i];    
-    }
-  else
-    mySerial.write(checksum);     
-  }
-  delay(5);
-
-  if (mySerial.available())
-    ack = mySerial.read();
-
-  return ack;
-} 
-
-void loop() // run over and over
-{
-     GetError();       // Get position error
-     CalculatePID();   // Calculate the PID output from the error
-     WriteRegister(9,PWMOutput);  // Set motor speed
 }
 
