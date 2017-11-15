@@ -1,8 +1,8 @@
 
-//int servo_max = 920;
-//int servo_min = 160;
-int servo_max = 880;
-int servo_min = 200;
+//int servo_max = 951;
+//int servo_min = 131;
+int servo_max = 900;
+int servo_min = 270;
 const int analogInPin = A0;  // Analog input pin that the potentiometer is attached to
 int forward_pin1 = 0;
 int backward_pin1 = 0;
@@ -139,7 +139,7 @@ void servoTest(){
     boolean fwd = false;
     boolean rwd = false;
 
-    /*
+    
     sensorValue = analogRead(analogInPin);
     //Serial.print("sensor value = ");
     //Serial.println(sensorValue);
@@ -168,11 +168,15 @@ void servoTest(){
       //Serial.print("sensor value = ");
       //Serial.println(sensorValue);
     }
+    stopServo();
+    
+    delay(2000);
+    pulseForward();
 
     stopServo();
-    delay(2000);*/
+    delay(2000);
 
-    sensorValue = analogRead(analogInPin);
+    /*sensorValue = analogRead(analogInPin);
     //Serial.print("sensor value = ");
     //Serial.println(sensorValue);
 
@@ -214,8 +218,17 @@ void servoTest(){
       Serial.println(motorPosition[index]);
     }  
 
-    Serial.println("Testing servo done.");
+    Serial.println("Testing servo done.");*/
     
+}
+
+void pulseForward(){
+  digitalWrite(forward_pin1, HIGH);
+  digitalWrite(backward_pin1, LOW);
+
+  digitalWrite(enB, HIGH);
+  delay(120);
+  digitalWrite(enB, LOW);
 }
 
 void mediumForward(){
@@ -237,7 +250,7 @@ void stopServo(){
 }
 
 void servoDirectionTest(){
-    //erial.println("Direction has not been set up. Starting the calibration.");
+    Serial.println("Direction has not been set up. Starting the calibration.");
     
     int sensor_start = analogRead(analogInPin);
     //Serial.print("starting sensor value = ");
